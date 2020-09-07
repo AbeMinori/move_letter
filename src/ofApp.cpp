@@ -31,56 +31,56 @@ void ofApp::update(){
     
     // 表示の文字
     // spaceキーを押した時
-    if (pressd_space >= 1){
-        sprintf(text, display_text_space[pressd_space-1].c_str());
+    if (pressed_space >= 1){
+        sprintf(text, display_text_space[pressed_space-1].c_str()); //文字の表示
     }
-    if(pressd_space > 2){
-        pressd_space = 1;
+    if(pressed_space > 2){
+        pressed_space = 1; //初期化
     }
        
     // enterキーを押した時
     //int direction_array[] = {2,1,2,1,2,1,2,1,2};
-    if(pressd_enter >= 1){
-        sprintf(text, display_text_enter[pressd_enter-1].c_str());
-        if(pressd_enter%2 == 0){
+    if(pressed_enter >= 1){
+        sprintf(text, display_text_enter[pressed_enter-1].c_str()); //文字の表示
+        if(pressed_enter%2 == 0){ //pressed_enterが偶数なら左に進む
             move_right = false;
             move_left = true;
-        }else{
+        }else{ //奇数なら右に進む
             move_right = true;
             move_left = false;
         }
     }
     
-    if(pressd_enter > 10){
+    if(pressed_enter > 10){ //pressed_enterが10より大きくなった場合、何も表示しない
         sprintf(text, "");
     }
     
-    if(click){
+    if(click){ //マウスがクリックされた時
         angle += 3;
-        if(angle == 360){
+        if(angle == 360){ //角度が360度になった時
             click = false;
             angle = 0;
         }
-    }else if(!click){
-        if(pressd_space >= 1){
-            location.x = ofGetWidth()/2 - font.stringWidth(display_text_space[pressd_space-1])/2;
-            location.y = ofGetHeight()/2 + font.stringHeight(display_text_space[pressd_space-1])/2;
+    }else if(!click){ //マウスがクリックされていない時
+        if(pressed_space >= 1){ //pressed_spaceが1以上の時
+            location.x = ofGetWidth()/2 - font.stringWidth(display_text_space[pressed_space-1])/2; //location.xを中心に合わせる
+            location.y = ofGetHeight()/2 + font.stringHeight(display_text_space[pressed_space-1])/2; //location.yを中心に合わせる
         }
-        if((pressd_enter >= 1) && (pressd_enter <= 10)){
-            if(move_right){
-                velocity_right = ofVec2f(10*(font.stringWidth(display_text_enter[pressd_enter-1])/font.stringWidth(display_text_enter[5])), 0);
+        if((pressed_enter >= 1) && (pressed_enter <= 10)){ //pressed_enterが1以上、10以下の時
+            if(move_right){ //右に進む
+                velocity_right = ofVec2f(10*(font.stringWidth(display_text_enter[pressed_enter-1])/font.stringWidth(display_text_enter[5])), 0);
                 location_right += velocity_right;
                 location = location_right;
                 if(location.x >= ofGetWidth()){ //右端に文字が行ったら
-                    pressd_enter++;
-                    location_right = ofVec2f(-font.stringWidth(display_text_enter[pressd_enter]), ofGetHeight()/2);
+                    pressed_enter++;
+                    location_right = ofVec2f(-font.stringWidth(display_text_enter[pressed_enter]), ofGetHeight()/2);
                 }
-            }else if (move_left){
-                velocity_left = ofVec2f(-10*(font.stringWidth(display_text_enter[pressd_enter-1])/font.stringWidth(display_text_enter[5])), 0);
+            }else if (move_left){ //左に進む
+                velocity_left = ofVec2f(-10*(font.stringWidth(display_text_enter[pressed_enter-1])/font.stringWidth(display_text_enter[5])), 0);
                 location_left += velocity_left;
                 location = location_left;
-                if ((location.x + font.stringWidth(display_text_enter[pressd_enter-1]))<= 0){ //左端に文字が行ったら
-                    pressd_enter++;
+                if ((location.x + font.stringWidth(display_text_enter[pressed_enter-1]))<= 0){ //左端に文字が行ったら
+                    pressed_enter++;
                     location_left = ofVec2f(ofGetWidth(), ofGetHeight()/2);
                 }
             }
@@ -100,7 +100,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    if(pressd_space >= 1 || pressd_enter >= 1){
+    if(pressed_space >= 1 || pressed_enter >= 1){
         ofPushMatrix(); //現在の座標系を保存
         ofSetColor(R, G, B); // 文字の色
         ofRotateXDeg(angle); //Z軸周りに回転
@@ -126,7 +126,7 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
 
     if (key==32){ //スペースキーのキーコード
-        pressd_space++;
+        pressed_space++;
     }
 }
 
@@ -134,7 +134,7 @@ void ofApp::keyPressed(int key){
 void ofApp::keyReleased(int key){
     
     if(key == 13){ //エンターキーのキーコード
-        pressd_enter++;
+        pressed_enter++;
     }
 }
 
