@@ -17,8 +17,8 @@ class ofApp : public ofBaseApp{
         int direction = 0; //方向
         double angle; //角度
     
-        int pressd_enter = 0; //エンターキーを押した時に増える変数
-        int pressd_space = 0; //スペースキーを押した時に増える変数
+        int pressed_enter = 0; //エンターキーを押した時に増える変数
+        int pressed_space = 0; //スペースキーを押した時に増える変数
         bool click = false; //マウスがクリックされたかどうか
     
 //#define MOVE_RIGHT 1
